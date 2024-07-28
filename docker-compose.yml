@@ -1,0 +1,8 @@
+include:
+  - https://github.com/TheKitoInc/docker-debian.git
+
+services:
+  kito-debian-mosquitto:
+    depends_on: [ kito-debian ]
+    build: .
+    image: kito-debian-mosquitto:latest
