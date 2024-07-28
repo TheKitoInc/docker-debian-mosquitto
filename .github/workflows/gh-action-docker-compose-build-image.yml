@@ -1,0 +1,27 @@
+name: GH-ACTION-DOCKER-COMPOSE-BUILD-IMAGE
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  GH-ACTION-DOCKER-COMPOSE-BUILD-IMAGE:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Upgrade docker-compose
+        run: |
+          wget "https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64"
+          chmod +x docker-compose-linux-x86_64
+          mv docker-compose-linux-x86_64 /usr/local/bin/docker-compose
+
+      - name: Checkout the code
+        uses: actions/checkout@v4
+
+      - name: Build the Docker image
+        run: |
+          export COMPOSE_EXPERIMENTAL_GIT_REMOTE=1
+          docker-compose version
+          docker-compose build
